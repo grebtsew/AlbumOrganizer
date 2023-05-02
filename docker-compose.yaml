@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  album_organizer:
+    build: .
+    volumes:
+      - ./data:/app/data
+    command: ./target/release/album_organizer
