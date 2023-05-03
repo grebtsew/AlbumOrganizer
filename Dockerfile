@@ -1,24 +1,21 @@
-##
-# For windows containers!
-##
+FROM ubuntu:20.04
 
-# Specify the Rust base image
-FROM rust:latest
+RUN apt-get update && apt-get install -y python3.8 python3-pip
 
-# Set the working directory to /app
+# set the working directory
 WORKDIR /app
 
-# Copy the Cargo.toml and Cargo.lock files to the container
-COPY Cargo.toml Cargo.lock ./
+# copy the requirements file into the container
+COPY requirements.txt .
 
-# Install the project dependencies
-RUN cargo build --release
+# install the Python packages
+RUN pip3 install -r requirements.txt
 
-# Copy the project source code to the container
-COPY src/ ./src/
+# copy the application code into the container
+COPY . .
 
-# Build the project
-RUN cargo build --release
+# expose the port
+EXPOSE 8080
 
-# Set the startup command for the container
-CMD ["./target/release/album_organizer"]
+# run the application
+CMD ["python3", "./src/main.py"]
