@@ -4,3 +4,4 @@ face_recognition==0.3.0
 numpy== 1.24.2
 opencv-python==4.7.0.72
 tabulate==0.9.0
+tqdm==4.65.0
