@@ -17,9 +17,9 @@ if __name__ == "__main__":
     
     """
 
-    path = "./data/test_images/"
-    df = ai.detect_all_faces_in_album(path, workers=8)
-    df = ai.detect_persons(df, tolerance=0.6)
+    path = "./data/album/" 
+    df = ai.detect_all_faces_in_album(path, workers=8) # TODO: add checkpointing, smaller dataset
+    df = ai.detect_persons(df, tolerance=0.6) # TODO: add progress bar, add checkpointing
 
     # Save to CSV file safe
     store_csv_path = './data/tmp/tmp.csv'
@@ -28,6 +28,8 @@ if __name__ == "__main__":
         os.makedirs(dir_path)
     db.save(df, store_csv_path)
 
+
+    """
     # Read df again
     df = db.load(store_csv_path) # Test only, good for caching
     
@@ -42,8 +44,13 @@ if __name__ == "__main__":
     print("Merge id Unknown0 and Unknown1.")
     df = db.merge_ids(df, "Unknown0","Unknown1") # Test only
 
-    file.save_all_individual_from_album("./target/",df)
+    # Save all images
+    file.save_all_individual_from_album("./target/",df, allow_copies=False)
 
+    # Call the find_duplicates function with the root directory
+    duplicates = file.find_duplicates(path)
+    file.remove_duplicates(duplicates)
+    """
     # Pretty print (DataFrame):
     #print(tabulate(df, headers='keys', tablefmt='psql'))
     print(df)
@@ -56,8 +63,6 @@ if __name__ == "__main__":
     """
 
 
-    # TODO: rearrange images
-    # TODO: remove duplicates
     # TODO: test on larger dataset
 
     # TODO: write tests

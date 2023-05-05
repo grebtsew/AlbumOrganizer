@@ -3,10 +3,12 @@ from . import file
 from . import db
 import pandas as pd
 import numpy as np
-import cv2
-import time
 from multiprocessing import Pool
 from tqdm import tqdm
+
+
+
+
 
 
 def get_known_face_encodings(df):
@@ -113,4 +115,37 @@ def sentiment_analysis(image_path):
     for result in results:
         print(result[1], ':', result[2])
 
+"""
+
+"""
+# TODO: checkpointing
+import ray
+
+ray.init()
+
+@ray.remote
+def my_task(state):
+    # Do some computation
+    state['count'] += 1
+    # Save the state every 10 iterations
+    if state['count'] % 10 == 0:
+        ray.experimental.checkpoint(state, f"checkpoint_{state['count']}.pkl")
+    return state['count']
+
+state = {'count': 0}
+
+# Check if a checkpoint exists and restore it if so
+checkpoints = ray.experimental.list_checkpoints()
+if checkpoints:
+    state = ray.experimental.load_checkpoint(checkpoints[-1])
+
+# Start the computation
+for i in range(state['count'], 100):
+    count = ray.get(my_task.remote(state))
+    print(f"Count: {count}")
+
+# Save the final state
+ray.experimental.checkpoint(state, "final_checkpoint.pkl")
+
+ray.shutdown()
 """
