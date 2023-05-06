@@ -1,4 +1,5 @@
 import tkinter as tk
+from PIL import ImageTk, Image
 
 class DraggableImage:
     def __init__(self, parent, image, row, column):
@@ -39,8 +40,8 @@ class DraggableImage:
 root = tk.Tk()
 
 # Load the images
-image_filenames = ["image1.png", "image2.png", "image3.png"]
-images = [tk.PhotoImage(file=image_filename) for image_filename in image_filenames]
+image_filenames = ["./Data/test_images/google1.jpg", "./Data/test_images/google2.jpg", "./Data/test_images/google3.jpg"]
+images = [ImageTk.PhotoImage(Image.open(image_filename)) for image_filename in image_filenames]
 
 # Create the draggable images
 draggable_images = []
