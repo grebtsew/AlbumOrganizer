@@ -7,26 +7,20 @@ import os
 from tabulate import tabulate
 
 if __name__ == "__main__":
-    # Current implementation are function testing only!
-
-    """
-    
-    ----- Analysis 1 -----
-    Face recognition and so on.
-    
-    """
-
-    path = "./data/test_images/" 
-    df = ai.detect_all_faces_in_album(path, workers=8, checkpoint_interval=50)
-    df = ai.detect_persons(df, tolerance=0.6, checkpoint_interval=50)
+    path = "./data/album/fotos/Fotoalbum från 2012/"
+    df = ai.detect_all_faces_in_album(
+        path, workers=8, checkpoint_interval=50
+    )  # TODO: add backup, remove checkpoint after program done
+    df = ai.detect_persons(
+        df, tolerance=0.6, checkpoint_interval=50
+    )  # TODO: add backup , remove checkpoint after program done
 
     # Save to CSV file safe
-    store_csv_path = './data/tmp/tmp.csv'
+    store_csv_path = "./data/tmp/tmp.csv"
     dir_path = os.path.dirname(store_csv_path)
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
     db.save(df, store_csv_path)
-
 
     """
     # Read df again
@@ -50,17 +44,10 @@ if __name__ == "__main__":
     duplicates = file.find_duplicates(path)
     file.remove_duplicates(duplicates)
     """
+
     # Pretty print (DataFrame):
-    #print(tabulate(df, headers='keys', tablefmt='psql'))
+    # print(tabulate(df, headers='keys', tablefmt='psql'))
     print(df)
-
-    """
-    
-    ----- Analysis 2 ----
-    Second analysis with other parameters
-
-    """
-
 
     # TODO: test on larger dataset
 
