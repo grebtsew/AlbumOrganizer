@@ -19,7 +19,7 @@ def find_images(directory):
 
 def get_appropriate_incremental_name(src_file, dest_folder):
     """
-    Copies a file from src_file to dest_folder, incrementing the file name if a file with the same name already exists.
+    Find an appropriate filename incrementing the file name if a file with the same name already exists.
     """
     file_name = os.path.basename(src_file)
     dest_file = os.path.join(dest_folder, file_name)
@@ -69,6 +69,15 @@ def save_all_individual_from_album(base_path, df, allow_copies=False):
         save_individual_images(base_path, df, person, ignore_list)
         if not allow_copies:  # make sure images are not copied several times
             ignore_list.extend(db.get_all_images_of_individual(df, person))
+
+
+def backup(file_path, folder_path):
+    if not os.path.exists(file_path):
+        return  # Calculations short so skip backup
+    os.makedirs(folder_path, exist_ok=True)
+    dest_path = get_appropriate_incremental_name(file_path, folder_path)
+    shutil.copy2(file_path, dest_path)
+    print(f"Backuped {file_path} to {dest_path}.")
 
 
 def find_duplicates(rootdir):

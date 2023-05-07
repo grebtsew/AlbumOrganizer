@@ -3,6 +3,7 @@
 debug/
 target/
 
+
 # Ignore compiled Python files
 *.pyc
 
@@ -39,3 +40,4 @@ Cargo.lock
 /data/album/
 /data/images/
 /data/tmp/
+/data/backups/
