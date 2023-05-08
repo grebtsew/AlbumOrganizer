@@ -3,7 +3,7 @@ import os
 import shutil
 import numpy as np
 import hashlib
-
+from tqdm import tqdm
 
 def find_images(directory):
     image_extensions = [".jpg", ".jpeg", ".png", ".gif"]
@@ -57,9 +57,7 @@ def save_all_individual_from_album(base_path, df, allow_copies=False):
     )
     ignore_list = []
 
-    for i, person in enumerate(persons):
-        print(f"Currently on {i+1}/{len(persons)}")
-
+    for i,person in tqdm(np.ndenumerate(persons),total=len(persons)):
         try:
             if np.isnan(person):
                 person = None

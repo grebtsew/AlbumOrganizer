@@ -6,7 +6,6 @@ import numpy as np
 from multiprocessing import Pool
 from tqdm import tqdm
 import pickle
-import os
 import itertools
 
 def detect_persons(
@@ -25,7 +24,7 @@ def detect_persons(
 
     print("----- Face Comparison of detection started -----")
     print(f"Number of persons to comparison with each other : {len(df)}")
-    print(f"Number of batches: {int(len(df)/checkpoint_interval)}")
+    print(f"Number of batches: {int(len(df)/checkpoint_interval)+1}")
     print(f"Number of checkpoint_interval: {checkpoint_interval}")
 
     # Load checkpoint if exist
@@ -139,7 +138,7 @@ def multi_process_detect_all_faces_in_album(
 
     print("----- Face detection of album started -----")
     print(f"Number of images: {len(image_paths)}")
-    print(f"Number of batches: {int(len(image_paths)/checkpoint_interval)}")
+    print(f"Number of batches: {int(len(image_paths)/checkpoint_interval)+1}")
     print(f"Number of checkpoint_interval: {checkpoint_interval}")
 
     i = 0
