@@ -79,6 +79,11 @@ def backup(file_path, folder_path):
     shutil.copy2(file_path, dest_path)
     print(f"Backuped {file_path} to {dest_path}.")
 
+def save_csv(csv_storage_path, df):
+    dir_path = os.path.dirname(csv_storage_path)
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+    db.save(df, csv_storage_path)
 
 def find_duplicates(rootdir):
     # Create a dictionary to store file hashes and paths
