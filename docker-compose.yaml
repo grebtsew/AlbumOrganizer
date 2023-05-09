@@ -1,8 +1,17 @@
-version: '3'
+version: '3.8'
+
+# The purpose of this file is to run and build the dockerfile in one line.
+
+# Run using this command:
+# docker-compose run albumorganizer <--command (optional)>
 
 services:
-  album_organizer:
-    build: .
+  albumorganizer:
+    build: ./  
+    container_name: albumorganizer
+    image: grebtsew/albumorganizer 
+    entrypoint: /app/docker-entrypoint.sh
+    command: [""]
     volumes:
-      - ./data:/app/data
-    command: ./target/release/album_organizer
+        - ./target:/app/target
+        - ./data:/app/data

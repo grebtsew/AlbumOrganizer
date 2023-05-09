@@ -41,3 +41,9 @@ Cargo.lock
 /data/images/
 /data/tmp/
 /data/backups/
+/tests/data/album/
+/tests/data/images/
+/tests/data/tmp/
+/tests/data/backups/
+
+*.pytest_cache
