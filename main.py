@@ -47,7 +47,6 @@ if __name__ == "__main__":
     if backup_csv:
         file.backup(csv_storage_path, backup_folder)
 
-
     # Pretty print (DataFrame):
     # print(tabulate(df, headers='keys', tablefmt='psql'))
     print(df)
