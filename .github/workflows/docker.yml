@@ -1,0 +1,25 @@
+name: Docker Build and Test
+
+on:
+  workflow_dispatch: # For now we trigger tests manually only
+
+#  push:
+#    branches:
+#      - main
+#  pull_request:
+#    branches:
+#      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t test_albumorganizer_image .
+
+    - name: Test Docker image
+      run: docker run test_albumorganizer_image pytest
