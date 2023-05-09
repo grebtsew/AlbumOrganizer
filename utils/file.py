@@ -14,6 +14,7 @@ class ResizeMode(Enum):
     RESIZE = 3
 
 
+
 def transform_images_size(album_path, target_path, width=640,height=480, fx=0.5,fy=0.5, mode=ResizeMode.RESIZE):
     """
     Resize, rescale or crop images, returns target folder
