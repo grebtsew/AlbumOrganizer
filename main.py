@@ -33,8 +33,7 @@ if __name__ == "__main__":
     WARNING: it is important that this dataframe csv file has correct format!
     """
     load_df = False
-    df_path= "./data/tmp/fr_db.csv"
-
+    df_path = "./data/tmp/fr_db.csv"
 
     if not load_df:
         """
@@ -63,7 +62,7 @@ if __name__ == "__main__":
         if backup_csv:
             file.backup(csv_storage_path, backup_folder)
 
-    else: 
+    else:
         df = db.load_dataframe(df_path)
 
     # Pretty print (DataFrame):
@@ -71,12 +70,15 @@ if __name__ == "__main__":
     print(df)
 
     # Remove current target
-    target_path = "./target/"
-    if os.path.exists(target_path):
-        shutil.rmtree(target_path)
+    try:
+        target_path = "./target/"
+        if os.path.exists(target_path):
+            shutil.rmtree(target_path)
+    except OSError:
+        pass  # This happens in docker container if we do not have permission!
 
     # Create new target
-    file.save_all_individual_from_album(target_path,df, allow_copies=False) 
+    file.save_all_individual_from_album(target_path, df, allow_copies=False)
 
     # TODO: test on larger dataset
     # TODO: test on docker

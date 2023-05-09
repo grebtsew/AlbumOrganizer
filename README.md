@@ -94,7 +94,7 @@ docker run -it albumorganizer:latest pytest
 If you would like to contribute to AlbumOrganizer, please fork the repository and create a pull request. We welcome all contributions, big or small!
 
 # Disclamer
-Some of the code in this implementation is generated using ChatGPT4 and the project logo is created using DALL-E 2.
+Some of the code in this implementation is generated using ChatGPT4.
 
 # License
 

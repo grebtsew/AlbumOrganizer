@@ -9,6 +9,7 @@ import pickle
 import itertools
 import os
 
+
 def detect_persons(
     df,
     tolerance=0.6,
@@ -61,8 +62,8 @@ def detect_persons(
             print(f"  Checkpoint - {i+1}/{len(df)}")
             print()
             # create checkpoint
-            
-            os.makedirs(os.path.dirname(checkpoint_path), exist_ok=True)    
+
+            os.makedirs(os.path.dirname(checkpoint_path), exist_ok=True)
             with open(checkpoint_path, "wb+") as f:
                 pickle.dump((df, i, unknown_counter), f)
 
@@ -70,6 +71,7 @@ def detect_persons(
     print(f" An amount of {unknown_counter} new persons were found!")
 
     return df
+
 
 def detect_all_faces_in_album(
     path,
@@ -83,6 +85,7 @@ def detect_all_faces_in_album(
         checkpoint_interval=checkpoint_interval,
         checkpoint_path=checkpoint_path,
     )
+
 
 def multi_process_detect_faces(image_path):
     """
@@ -119,6 +122,7 @@ def multi_process_detect_faces(image_path):
             df = pd.concat([df, new_row], ignore_index=True)
 
     return df
+
 
 def multi_process_detect_all_faces_in_album(
     path,
@@ -174,7 +178,7 @@ def multi_process_detect_all_faces_in_album(
             print()
             print(f"  Checkpoint - {j+1}/{len(splitted_paths)}")
             print()
-            
+
             os.makedirs(os.path.dirname(checkpoint_path), exist_ok=True)
             with open(checkpoint_path, "wb+") as f:
                 pickle.dump((dfss, j + 1), f)

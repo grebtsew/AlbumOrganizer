@@ -22,7 +22,8 @@ def face_recognition_on_album(
     df = ai.detect_persons(
         df,
         tolerance=tolerance,
-        checkpoint_interval=checkpoint_interval*10, # we want fewer checkpoints as this calculation is much faster!
+        checkpoint_interval=checkpoint_interval
+        * 10,  # we want fewer checkpoints as this calculation is much faster!
         checkpoint_path=checkpoint_path2,
     )
 

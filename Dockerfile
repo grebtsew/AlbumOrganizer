@@ -1,6 +1,22 @@
-FROM ubuntu:20.04
+# We use ubuntu:20.04 to get python3.8 included
+FROM ubuntu:20.04 
 
-RUN apt-get update && apt-get install -y python3.8 python3-pip
+ENV DEBIAN_FRONTEND noninteractive
+
+LABEL "maintained" "Grebtsew 23-05-09"
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    libatlas-base-dev \
+    libgtk-3-dev \
+    libboost-all-dev \
+    python3-dev \
+    python3-pip \
+    python3-setuptools \
+    python3-wheel \
+    && rm -rf /var/lib/apt/lists/*
 
 # set the working directory
 WORKDIR /app
@@ -14,8 +30,6 @@ RUN pip3 install -r requirements.txt
 # copy the application code into the container
 COPY . .
 
-# expose the port
-EXPOSE 8080
 
 # run the application
-CMD ["python3", "./src/main.py"]
+ENTRYPOINT ["./docker-entrypoint.sh"]

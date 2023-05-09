@@ -8,21 +8,28 @@ import cv2
 
 from enum import Enum
 
+
 class ResizeMode(Enum):
     SCALE = 1
     CROP = 2
     RESIZE = 3
 
 
-
-def transform_images_size(album_path, target_path, width=640,height=480, fx=0.5,fy=0.5, mode=ResizeMode.RESIZE):
+def transform_images_size(
+    album_path,
+    target_path,
+    width=640,
+    height=480,
+    fx=0.5,
+    fy=0.5,
+    mode=ResizeMode.RESIZE,
+):
     """
     Resize, rescale or crop images, returns target folder
     """
     target = f"{target_path}"
-    dest = get_appropriate_incremental_name("resize",target)
+    dest = get_appropriate_incremental_name("resize", target)
     os.makedirs(dest)
-    
 
     print("----- Album Resizing -----")
     print(f"Created folder {dest} for image resizing results.")
@@ -35,11 +42,13 @@ def transform_images_size(album_path, target_path, width=640,height=480, fx=0.5,
 
         if mode == ResizeMode.SCALE:
             # might be interesting to update interpolation for some occasions
-            resized_img = cv2.resize(img, None, fx=fx, fy=fy, interpolation=cv2.INTER_LINEAR) 
+            resized_img = cv2.resize(
+                img, None, fx=fx, fy=fy, interpolation=cv2.INTER_LINEAR
+            )
         elif mode == ResizeMode.CROP:
             h, w = img.shape[:2]
-            startx = w//2 - (width//2)
-            starty = h//2 - (height//2)
+            startx = w // 2 - (width // 2)
+            starty = h // 2 - (height // 2)
             endx = startx + width
             endy = starty + height
             resized_img = img[starty:endy, startx:endx]
@@ -48,10 +57,11 @@ def transform_images_size(album_path, target_path, width=640,height=480, fx=0.5,
         else:
             print("WARNING: Unsupported transform mode used!")
             return
-        
-        dest_path = get_appropriate_incremental_name(image_path,dest)
+
+        dest_path = get_appropriate_incremental_name(image_path, dest)
         cv2.imwrite(dest_path, resized_img)
-    return dest 
+    return dest
+
 
 def find_images(directory):
     image_extensions = [".jpg", ".jpeg", ".png", ".gif"]
@@ -105,7 +115,7 @@ def save_all_individual_from_album(base_path, df, allow_copies=False):
     )
     ignore_list = []
 
-    for i,person in tqdm(np.ndenumerate(persons),total=len(persons)):
+    for i, person in tqdm(np.ndenumerate(persons), total=len(persons)):
         try:
             if np.isnan(person):
                 person = None
@@ -125,11 +135,13 @@ def backup(file_path, folder_path):
     shutil.copy2(file_path, dest_path)
     print(f"Backuped {file_path} to {dest_path}.")
 
+
 def save_csv(csv_storage_path, df):
     dir_path = os.path.dirname(csv_storage_path)
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
     db.save(df, csv_storage_path)
+
 
 def find_duplicates(rootdir):
     # Create a dictionary to store file hashes and paths

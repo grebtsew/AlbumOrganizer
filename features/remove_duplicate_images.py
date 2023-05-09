@@ -3,7 +3,8 @@ Run this file to execute implementation
 """
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 
 from utils import file
@@ -21,5 +22,7 @@ if __name__ == "__main__":
 
     duplicate_path_tuples = file.find_duplicates(album_path)
     print(f"Found duplicates in album: {len(duplicate_path_tuples)}")
-    print(f"Uncomment the line #file.remove_duplicates(duplicate_path_tuples) to remove duplicates from album.")
-    #file.remove_duplicates(duplicate_path_tuples)
+    print(
+        f"Uncomment the line #file.remove_duplicates(duplicate_path_tuples) to remove duplicates from album."
+    )
+    # file.remove_duplicates(duplicate_path_tuples)
