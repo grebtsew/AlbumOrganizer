@@ -1,7 +1,7 @@
 name: Pytest
 
 # This test is slow due to dependency installation of DLIB.
-
+# TODO: add post to show test status on homepage
 on: 
   workflow_dispatch: # For now we trigger tests manually only
 #[push, pull_request]
