@@ -31,4 +31,4 @@ jobs:
       run: docker build -t test_albumorganizer_image .
 
     - name: Test Docker image
-      run: docker run test_albumorganizer_image pytest
+      run: docker run test_albumorganizer_image --pytest
