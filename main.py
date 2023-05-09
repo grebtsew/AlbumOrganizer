@@ -6,8 +6,12 @@ from utils import run
 import os
 from tabulate import tabulate
 import shutil
+from pyfiglet import Figlet
 
 if __name__ == "__main__":
+    f = Figlet(font="slant")
+    print(f.renderText("Album Organizer"))
+
     # TODO: load df mode
     # TODO: create a user interact script
     # TODO: move code to tests
@@ -57,5 +61,4 @@ if __name__ == "__main__":
     file.save_all_individual_from_album(target_path,df, allow_copies=False) 
 
     # TODO: test on larger dataset
-
-    # TODO: create test ci/cd
+    # TODO: test on docker

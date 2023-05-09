@@ -71,7 +71,7 @@ def save_all_individual_from_album(base_path, df, allow_copies=False):
 
 def backup(file_path, folder_path):
     if not os.path.exists(file_path):
-        return  # Calculations short so skip backup
+        return  # Calculations short, no checkpoint created, so skip backup
     os.makedirs(folder_path, exist_ok=True)
     dest_path = get_appropriate_incremental_name(file_path, folder_path)
     shutil.copy2(file_path, dest_path)
