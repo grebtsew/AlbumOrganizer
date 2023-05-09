@@ -18,6 +18,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Cache Docker image layers
+        uses: actions/cache@v2
+        with:
+          path: |
+            /var/lib/docker
+          key: ${{ runner.os }}-docker-${{ hashFiles('Dockerfile') }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+
     - name: Build Docker image
       run: docker build -t test_albumorganizer_image .
 
