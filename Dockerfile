@@ -30,6 +30,5 @@ RUN pip3 install -r requirements.txt
 # copy the application code into the container
 COPY . .
 
-
-# run the application
+RUN chmod +x ./docker-entrypoint.sh
 ENTRYPOINT ["./docker-entrypoint.sh"]

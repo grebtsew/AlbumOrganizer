@@ -9,7 +9,9 @@ AlbumOrganizer is a Python3 tool that organizes your photo albums by recognizing
 To install AlbumOrganizer using Docker, you need to have Docker installed on your system. You can then build and run the container using the docker-compose file using the following command:
 
 ```bash
-docker-compose run albumorganizer
+docker-compose build albumorganizer
+
+docker-compose run albumorganizer <command (optional)>
 ```
 
 ## Locally
@@ -19,7 +21,6 @@ To install AlbumOrganizer locally, follow the steps in the DockerFile. Python3.8
 ```bash
 pip3 install -r ./requirements.txt
 ```
-
 
 # Usage
 
