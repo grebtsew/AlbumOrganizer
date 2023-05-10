@@ -87,7 +87,7 @@ AlbumOrganizer will then create a sentient slideshow using the photos in the pho
 AlbumOrganizer comes with a set of tests that can be run using pytest. To run the tests, execute the following command in your terminal:
 
 ```arduino
-docker run -it albumorganizer:latest pytest
+docker-compose run albumorganizer --pytest
 ```
 
 # Contributing
