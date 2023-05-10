@@ -50,8 +50,9 @@ def merge_images(images, output_width, output_height):    # Compute the number o
     num_cols = int(np.ceil(np.sqrt(num_images)))
     num_rows = int(np.ceil(num_images / num_cols))
 
-    print(f"Amount of images: {len(images)}")
-    print(f"Image merge dimensions: {num_rows}x{num_cols}")
+    print(f"Amount of images to merge: {len(images)}")
+    print(f"Image merge dimensions: {num_cols}x{num_rows}")
+    print(f"Output image resolutiong: {output_width}x{output_height}")
 
     # Compute the width and height of each sub-image
     subimage_width = int(output_width / num_cols)
