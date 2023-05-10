@@ -81,4 +81,3 @@ if __name__ == "__main__":
     file.save_all_individual_from_album(target_path, df, allow_copies=False)
 
     # TODO: test on larger dataset
-

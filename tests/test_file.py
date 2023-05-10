@@ -76,7 +76,7 @@ def test_file_handle_functions():
     assert len(file.find_images(target_path)) == len(file.find_images(album_path))
 
     # Currently just checking that this runs
-    ai.create_face_collage(df,["Unknown11"],target_path, (1920,1080))
+    ai.create_face_collage(df, ["Unknown11"], target_path, (1920, 1080))
 
     try:
         if os.path.exists(target_path):
