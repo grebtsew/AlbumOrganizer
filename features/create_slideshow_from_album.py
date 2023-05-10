@@ -54,6 +54,7 @@ def generate_slideshow(
 ):
     """
     This function loops through an album and finds images depending on a vast amount of filters and creates a slideshow folder with images in target path.
+    Since this function contains a lot of analysis, it is super slow, but will yield some interesting results. Leave a filter with None value to ignore calculation.
     """
     pass
 
