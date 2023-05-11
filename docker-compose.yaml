@@ -16,6 +16,6 @@ services:
     command: [""] 
     volumes:
         - ./target:/app/target:rw,z
-        - ./data:/app/data
+        - ./data:/app/data:rw
     environment:
       - COMPOSE_CONVERT_WINDOWS_PATHS=1
