@@ -16,6 +16,10 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-setuptools \
     python3-wheel \
+    libtesseract-dev \
+    libleptonica-dev \
+    pkg-config \
+    libmagickwand-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # set the working directory
