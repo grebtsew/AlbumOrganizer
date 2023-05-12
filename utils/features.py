@@ -42,6 +42,7 @@ class Level(Enum):
     MODERATE = 2
     HIGH = 3
 
+
 class Heat(Enum):
     COLD = 0
     WARM = 1
@@ -624,13 +625,16 @@ def create_slideshow(
     )
     return df
 
+
 import math
+
 
 def color_distance(color1, color2):
     r_diff = color1[0] - color2[0]
     g_diff = color1[1] - color2[1]
     b_diff = color1[2] - color2[2]
     return math.sqrt(r_diff**2 + g_diff**2 + b_diff**2)
+
 
 def create_slideshow_from_df_and_filters(
     df,
@@ -664,9 +668,9 @@ def create_slideshow_from_df_and_filters(
     not_allowed_objects=None,  # None, ignores None
 ):
     print("----- Creating Slideshow -----")
-    
+
     # Create target folder
-    dest = file.get_appropriate_incremental_name("slideshow",target_path)
+    dest = file.get_appropriate_incremental_name("slideshow", target_path)
     os.makedirs(dest, exist_ok=True)
 
     slide_show_image_paths = []
@@ -676,7 +680,7 @@ def create_slideshow_from_df_and_filters(
         if color_dominance is not None:
             if color_distance(row["color_dominance"], color_dominance) > 100:
                 continue
-            
+
         if color_diversity is not None:
             if color_diversity == Level.LOW:
                 if row["color_diversity"] >= 0.2:
@@ -730,20 +734,30 @@ def create_slideshow_from_df_and_filters(
                     continue
 
         if min_image_resolution is not None:
-            if min_image_resolution[0] > row["image_resolution"][0] or min_image_resolution[1] > row["image_resolution"][1]:
+            if (
+                min_image_resolution[0] > row["image_resolution"][0]
+                or min_image_resolution[1] > row["image_resolution"][1]
+            ):
                 continue
-        
+
         if max_image_resolution is not None:
-            if max_image_resolution[0] < row["image_resolution"][0] or max_image_resolution[1] < row["image_resolution"][1]:
+            if (
+                max_image_resolution[0] < row["image_resolution"][0]
+                or max_image_resolution[1] < row["image_resolution"][1]
+            ):
                 continue
 
         if image_file_formats is not None:
             if row["image_file_format"] not in image_file_formats:
                 continue
-        
+
         if aspect_ratio_range is not None:
-            if aspect_ratio_range[0] < row["aspect_ratio_range"]  < aspect_ratio_range[1]:
-                continue        
+            if (
+                aspect_ratio_range[0]
+                < row["aspect_ratio_range"]
+                < aspect_ratio_range[1]
+            ):
+                continue
 
         if text_amount is not None:
             if text_amount > len(row["text"]):
@@ -769,7 +783,7 @@ def create_slideshow_from_df_and_filters(
             for feel in image_feeling:
                 if feel not in row["image_feeling"]:
                     continue
-        
+
         if environment is not None:
             if row["environment"] not in environment:
                 continue
@@ -805,16 +819,16 @@ def create_slideshow_from_df_and_filters(
             for obj in not_allowed_objects:
                 if obj in row["objects"]:
                     continue
-        
+
         slide_show_image_paths.append(row["image_path"])
-            
+
     print(f"Amount of images in slideshow: {len(slide_show_image_paths)}")
-    
 
     for image in slide_show_image_paths:
         dest_path = file.get_appropriate_incremental_name(image, dest)
         shutil.copy(image, dest_path)
         print(f"Copied file to {dest_path}")
+
 
 def create_face_collage(df, persons, target_path, resolution):
     print("----- Generate Collage -----")

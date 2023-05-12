@@ -31,7 +31,7 @@ if __name__ == "__main__":
     min_image_quality = None
     min_image_resolution = (0, 0)
     max_image_resolution = (4000, 4000)
-    image_file_formats = None # List of formats
+    image_file_formats = None  # List of formats
     aspect_ratio_range = (0, 2)
     # Text detection
     text_amount = None
@@ -39,13 +39,13 @@ if __name__ == "__main__":
     # Corner detection
     image_smooth_edges = None
     # Sentient Analysis
-    image_feeling = None # list of feelings
+    image_feeling = None  # list of feelings
     # Environment Analysis
     environment = None  # "outside"
     # Feature extraction
     sift_features = None
     # Face detection
-    people = None 
+    people = None
     # Object detection
     allowed_objects = None  # create a list of strings of object names
     not_allowed_objects = None
@@ -62,7 +62,6 @@ if __name__ == "__main__":
             shutil.rmtree(target_path)
     except OSError:
         pass  # This happens in docker container if we do not have permission!
-
 
     features.create_slideshow(
         album_path=album_path,
