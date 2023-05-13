@@ -342,8 +342,14 @@ def multi_process_slideshow(image_path, debug=False):
     pixels = image_rgb.reshape(-1, 3)
 
     # color_dominance
-    histogram = np.bincount(pixels[:, 0])
-    dominant_color = np.argmax(histogram)
+    red_histogram = np.bincount(pixels[:, 0])
+    green_histogram = np.bincount(pixels[:, 1])
+    blue_histogram = np.bincount(pixels[:, 2])
+    dominant_red = np.argmax(red_histogram)
+    dominant_green = np.argmax(green_histogram)
+    dominant_blue = np.argmax(blue_histogram)
+    dominant_color = (dominant_red, dominant_green, dominant_blue)
+
 
     if debug:
         print(f"DominantColor: {dominant_color}")
@@ -683,43 +689,44 @@ def create_slideshow_from_df_and_filters(
 
         if color_diversity is not None:
             if color_diversity == Level.LOW:
-                if row["color_diversity"] >= 0.2:
+                print(row["color_diversity"])
+                if row["color_diversity"] >= 0.00000002:
                     continue
             elif color_diversity == Level.MODERATE:
-                if row["color_diversity"] < 0.2 or row["color_diversity"] > 0.5:
+                if row["color_diversity"] < 0.00000002 or row["color_diversity"] > 0.000005:
                     continue
             elif color_diversity == Level.HIGH:
-                if row["color_diversity"] <= 0.5:
+                if row["color_diversity"] <= 0.000005:
                     continue
 
         if color_warmth is not None:
             if color_warmth == Heat.COLD:
-                if row["color_warmth"] > 0.5:
+                if row["color_warmth"] > 0.025:
                     continue
             elif color_warmth == Heat.WARM:
-                if row["color_warmth"] < 0.5:
+                if row["color_warmth"] < 0.025:
                     continue
 
         if image_intensity is not None:
             if image_intensity == Level.LOW:
-                if row["image_intensity"] >= 0.2:
+                if row["image_intensity"] >= 50:
                     continue
             elif image_intensity == Level.MODERATE:
-                if row["image_intensity"] < 0.2 or row["image_intensity"] > 0.5:
+                if row["image_intensity"] < 50 or row["image_intensity"] > 150:
                     continue
             elif image_intensity == Level.HIGH:
-                if row["image_intensity"] <= 0.5:
+                if row["image_intensity"] <= 150:
                     continue
 
         if image_contrast is not None:
             if image_contrast == Level.LOW:
-                if row["image_contrast"] >= 0.2:
+                if row["image_contrast"] >= 40:
                     continue
             elif image_contrast == Level.MODERATE:
-                if row["image_contrast"] < 0.2 or row["image_contrast"] > 0.5:
+                if row["image_contrast"] < 40 or row["image_contrast"] > 60:
                     continue
             elif image_contrast == Level.HIGH:
-                if row["image_contrast"] <= 0.5:
+                if row["image_contrast"] <= 60:
                     continue
 
         if min_image_quality is not None:
@@ -800,7 +807,10 @@ def create_slideshow_from_df_and_filters(
                     continue
 
         if people is not None:
-            if people == Level.LOW:
+            if people == Level.NONE:
+                if row["people"] != 0:
+                    continue
+            elif people == Level.LOW:
                 if row["people"] >= 2:
                     continue
             elif people == Level.MODERATE:
@@ -811,14 +821,22 @@ def create_slideshow_from_df_and_filters(
                     continue
 
         if allowed_objects is not None:
+            skip=False
             for obj in allowed_objects:
-                if obj not in row["objects"]:
-                    continue
+                if obj.lower() not in row["objects"][0]:
+                    skip=True
+                    break
+            if skip:
+                continue
 
         if not_allowed_objects is not None:
+            skip=False
             for obj in not_allowed_objects:
-                if obj in row["objects"]:
-                    continue
+                if obj.lower() in row["objects"][0]:
+                    skip=True
+                    break
+            if skip:
+                continue
 
         slide_show_image_paths.append(row["image_path"])
 

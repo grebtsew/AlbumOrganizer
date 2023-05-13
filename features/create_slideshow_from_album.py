@@ -7,6 +7,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from utils.features import Level
+from utils.features import Heat
 from pyfiglet import Figlet
 from utils import features
 import shutil
@@ -22,11 +23,11 @@ if __name__ == "__main__":
     # PLAY WITH FILTERS HERE!
 
     # Color analysis
-    color_dominance = None  # bgr, check for color dominant occurrences
-    color_diversity = None  # high large diversity
-    color_warmth = None  # low = cold, high = warm
-    image_intensity = None
-    image_contrast = None
+    color_dominance = None # exemple (0,0,0)  # bgr, check for color dominant occurrences
+    color_diversity = None  # example Level.MODERATE # high large diversity
+    color_warmth = None  # example Heat.COLD, low = cold, high = warm
+    image_intensity = None # example Level.MODERATE
+    image_contrast = Level.MODERATE # example Level.MODERATE
     # Image file specific
     min_image_quality = None
     min_image_resolution = (0, 0)
@@ -45,7 +46,7 @@ if __name__ == "__main__":
     # Feature extraction
     sift_features = None
     # Face detection
-    people = None
+    people = None # example, Level.LOW # level
     # Object detection
     allowed_objects = None  # create a list of strings of object names
     not_allowed_objects = None
