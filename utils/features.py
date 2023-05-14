@@ -595,7 +595,7 @@ def create_slideshow(
         checkpoint_interval=checkpoint_interval,
         checkpoint_path=checkpoint_path,
     )
-
+    pd.set_option('display.max_columns', None)
     print(df)
 
     try:
@@ -731,13 +731,13 @@ def create_slideshow_from_df_and_filters(
 
         if min_image_quality is not None:
             if min_image_quality == Level.LOW:
-                if row["image_quality"] >= 0.2:
+                if row["image_quality"] >= 35000:
                     continue
             elif min_image_quality == Level.MODERATE:
-                if row["image_quality"] < 0.2 or row["image_quality"] > 0.5:
+                if row["image_quality"] < 35000 or row["image_quality"] > 150000:
                     continue
             elif min_image_quality == Level.HIGH:
-                if row["image_quality"] <= 0.5:
+                if row["image_quality"] <= 150000:
                     continue
 
         if min_image_resolution is not None:
