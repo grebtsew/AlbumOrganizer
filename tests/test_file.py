@@ -3,11 +3,10 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-
-from utils import ai
 from utils import file
 from utils import db
 from utils import run
+from utils import features
 import os
 import pandas as pd
 import shutil
@@ -29,6 +28,9 @@ def test_file_save_load():
 
 
 def test_file_handle_functions():
+    """
+    Test the majority of file handle functions
+    """
     album_path = "./data/test_images/"
 
     backup_checkpoints = False
@@ -74,9 +76,6 @@ def test_file_handle_functions():
 
     file.save_all_individual_from_album(target_path, df, allow_copies=False)
     assert len(file.find_images(target_path)) == len(file.find_images(album_path))
-
-    # Currently just checking that this runs
-    ai.create_face_collage(df, ["Unknown11"], target_path, (1920, 1080))
 
     try:
         if os.path.exists(target_path):

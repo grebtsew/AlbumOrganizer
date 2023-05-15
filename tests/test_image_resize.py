@@ -8,6 +8,9 @@ import shutil
 
 
 def test_image_resize():
+    """
+    Test the image resize feature
+    """
     album_path = "./data/test_images/"
     target_path = "./target/"
 

@@ -3,12 +3,12 @@ The purpose of this file is to move all code needed for the feature functions as
 
 By @grebtsew 2023
 """
-import cv2
-import os
-import numpy as np
 from . import db
 from . import file
 
+import cv2
+import os
+import math
 import shutil
 import numpy as np
 import pickle
@@ -16,26 +16,21 @@ from multiprocessing import Pool
 from tqdm import tqdm
 import pandas as pd
 import itertools
-from utils import file
-import os
-
-from utils import db
 from enum import Enum
 import face_recognition
-import cv2
 from sklearn.cluster import KMeans
 from skimage.feature import graycomatrix, graycoprops
-
-try:
-    import pytesseract
-    #print(f"PyTesseract Installed and Imported")
-except ImportError:
-    #print("Tesseract OCR is not installed.")
-    pass
-
 import torch
 import torchvision
 import torchvision.transforms as T
+
+try:
+    import pytesseract
+
+    # print(f"PyTesseract Installed and Imported")
+except ImportError:
+    # print("Tesseract OCR is not installed.")
+    pass
 
 
 class Level(Enum):
@@ -50,11 +45,11 @@ class Heat(Enum):
     WARM = 1
 
 
-import cv2
-import numpy as np
-
-
 def detect_environment_from_image(image):
+    """
+    Estimate environment of incoming image.
+    Returns a string.
+    """
     environments = {
         "Outdoor": {"color_hist": [0.1, 0.4, 0.4, 0.1], "glcm": [0.2, 0.2, 0.3, 0.3]},
         "Indoor": {"color_hist": [0.6, 0.3, 0.1, 0.0], "glcm": [0.1, 0.2, 0.4, 0.3]},
@@ -108,7 +103,7 @@ def detect_environment_from_image(image):
 
 def detect_feelings_from_image_pixel_array(pixels):
     """
-    returns top 3 feelings
+    returns top 3 feelings from an image
     """
     # image feeling
     avg_color = np.mean(pixels, axis=0)
@@ -352,7 +347,6 @@ def multi_process_slideshow(image_path, debug=False):
     dominant_blue = np.argmax(blue_histogram)
     dominant_color = (dominant_red, dominant_green, dominant_blue)
 
-
     if debug:
         print(f"DominantColor: {dominant_color}")
 
@@ -414,9 +408,9 @@ def multi_process_slideshow(image_path, debug=False):
     except Exception as e:
         print(e)
         text = None
-    
+
     if debug:
-            print(f"Text: {text}")
+        print(f"Text: {text}")
 
     # image smooth edges
     gradient = cv2.Laplacian(image, cv2.CV_64F)
@@ -593,13 +587,19 @@ def create_slideshow(
     allowed_objects=None,  # None, allows all
     not_allowed_objects=None,  # None, ignores None
 ):
+    """
+    This is the main slideshow function where each function is called.
+    """
     df = generate_slideshow_dataframe(
         album_path,
         workers=workers,
         checkpoint_interval=checkpoint_interval,
         checkpoint_path=checkpoint_path,
     )
-    pd.set_option('display.max_columns', None)
+
+    # This makes sure the entire pandas dataframe is printed, no overflow
+    # pd.set_option("display.max_columns", None)
+
     print(df)
 
     try:
@@ -636,10 +636,10 @@ def create_slideshow(
     return df
 
 
-import math
-
-
 def color_distance(color1, color2):
+    """
+    Calculates distance between two colors. Similar to euclidean distance.
+    """
     r_diff = color1[0] - color2[0]
     g_diff = color1[1] - color2[1]
     b_diff = color1[2] - color2[2]
@@ -677,6 +677,9 @@ def create_slideshow_from_df_and_filters(
     allowed_objects=None,  # None, allows all
     not_allowed_objects=None,  # None, ignores None
 ):
+    """
+    Peforms file copying and so on from a generated dataframe for slideshows.
+    """
     print("----- Creating Slideshow -----")
 
     # Create target folder
@@ -697,7 +700,10 @@ def create_slideshow_from_df_and_filters(
                 if row["color_diversity"] >= 0.00000002:
                     continue
             elif color_diversity == Level.MODERATE:
-                if row["color_diversity"] < 0.00000002 or row["color_diversity"] > 0.000005:
+                if (
+                    row["color_diversity"] < 0.00000002
+                    or row["color_diversity"] > 0.000005
+                ):
                     continue
             elif color_diversity == Level.HIGH:
                 if row["color_diversity"] <= 0.000005:
@@ -763,22 +769,18 @@ def create_slideshow_from_df_and_filters(
                 continue
 
         if aspect_ratio_range is not None:
-            if (
-                aspect_ratio_range[0]
-                < row["aspect_ratio"]
-                < aspect_ratio_range[1]
-            ):
+            if aspect_ratio_range[0] < row["aspect_ratio"] < aspect_ratio_range[1]:
                 continue
 
         if text_amount is not None and row["text"] is not None:
-            if text_amount+1 > len(row["text"].split(" ")):
+            if text_amount + 1 > len(row["text"].split(" ")):
                 continue
 
         if text is not None and row["text"] is not None:
-            skip=False
+            skip = False
             for word in text:
                 if word not in row["text"]:
-                    skip=True
+                    skip = True
                     break
             if skip:
                 continue
@@ -795,10 +797,10 @@ def create_slideshow_from_df_and_filters(
                     continue
 
         if image_feeling is not None:
-            skip=False
+            skip = False
             for feel in image_feeling:
                 if feel not in row["image_feeling"][0]:
-                    skip=True
+                    skip = True
                     break
             if skip:
                 continue
@@ -833,19 +835,19 @@ def create_slideshow_from_df_and_filters(
                     continue
 
         if allowed_objects is not None:
-            skip=False
+            skip = False
             for obj in allowed_objects:
                 if obj.lower() not in row["objects"][0]:
-                    skip=True
+                    skip = True
                     break
             if skip:
                 continue
 
         if not_allowed_objects is not None:
-            skip=False
+            skip = False
             for obj in not_allowed_objects:
                 if obj.lower() in row["objects"][0]:
-                    skip=True
+                    skip = True
                     break
             if skip:
                 continue
@@ -861,6 +863,9 @@ def create_slideshow_from_df_and_filters(
 
 
 def create_face_collage(df, persons, target_path, resolution):
+    """
+    Creates face collage by cropping images from photo album.
+    """
     print("----- Generate Collage -----")
     cropped_faces = []
     for person in persons:
@@ -889,9 +894,11 @@ def create_face_collage(df, persons, target_path, resolution):
     return merged_image
 
 
-def merge_images(
-    images, output_width, output_height
-):  # Compute the number of rows and columns in the final merged image
+def merge_images(images, output_width, output_height):
+    """
+    Merge images together.
+    """
+    # Compute the number of rows and columns in the final merged image
     if len(images) == 0:
         return None
 

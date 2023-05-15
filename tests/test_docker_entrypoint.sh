@@ -4,6 +4,7 @@
 # This file is used to test all modes in docker_entrypoint.sh
 #
 
+docker-compose build albumorganizer 
 docker-compose run albumorganizer 
 docker-compose run albumorganizer --slideshow
 docker-compose run albumorganizer --collage

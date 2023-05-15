@@ -1,5 +1,5 @@
 """
-Run this file to execute implementation
+Run this file to execute detection of duplicate images.
 """
 import sys
 import os

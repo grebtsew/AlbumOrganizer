@@ -9,6 +9,10 @@ from utils import run
 
 
 def test_db_functions():
+    """
+    Test the majority of dataframe related functions
+    """
+
     album_path = "./data/test_images/"
 
     backup_checkpoints = False

@@ -64,6 +64,10 @@ def transform_images_size(
 
 
 def find_images(directory):
+    """
+    Find all images in subdirectories.
+    Returns a list of paths to each image.
+    """
     image_extensions = [".jpg", ".jpeg", ".png", ".gif"]
     image_paths = []
 
@@ -90,6 +94,9 @@ def get_appropriate_incremental_name(src_file, dest_folder):
 
 
 def save_individual_images(base_path, df, person, ignore_list=[]):
+    """
+    Saves images from album in a folder, renames images if names collide.
+    """
     print(f"Will create folder {person} in {base_path} and copy images there.")
     folder_path = f"{base_path}{person}"
     os.makedirs(folder_path, exist_ok=True)
@@ -108,6 +115,9 @@ def save_individual_images(base_path, df, person, ignore_list=[]):
 
 
 def save_all_individual_from_album(base_path, df, allow_copies=False):
+    """
+    Performs the copying and so on for the main function.
+    """
     persons = db.get_all_ids(df)
 
     print(
@@ -128,6 +138,9 @@ def save_all_individual_from_album(base_path, df, allow_copies=False):
 
 
 def backup(file_path, folder_path):
+    """
+    Store file in backup folder, for potential later use.
+    """
     if not os.path.exists(file_path):
         return  # Calculations short, no checkpoint created, so skip backup
     os.makedirs(folder_path, exist_ok=True)
@@ -137,6 +150,9 @@ def backup(file_path, folder_path):
 
 
 def save_csv(csv_storage_path, df):
+    """
+    Saves a pandas dataframe to file.
+    """
     dir_path = os.path.dirname(csv_storage_path)
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
@@ -144,6 +160,9 @@ def save_csv(csv_storage_path, df):
 
 
 def find_duplicates(rootdir):
+    """
+    Find image duplicates in subdirectories using file encodings.
+    """
     # Create a dictionary to store file hashes and paths
     hash_dict = {}
     duplicates = []

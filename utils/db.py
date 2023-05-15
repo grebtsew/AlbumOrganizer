@@ -43,6 +43,9 @@ def get_all_images_missing_faces(df):
 
 
 def get_known_face_encodings(df):
+    """
+    Takes a dataframe and returns two lists of found person name and corresponding face encoding
+    """
     known_face_names = []
     known_face_encodings = []
     for _, row in df.iterrows():

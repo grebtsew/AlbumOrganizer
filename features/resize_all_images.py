@@ -1,5 +1,5 @@
 """
-Run this file to execute implementation
+Run this file to execute resizing of images.
 """
 import sys
 import os

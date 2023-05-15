@@ -1,6 +1,7 @@
 """
-Run this file to execute implementation
+Run this file to execute face collage generation
 """
+
 import sys
 import os
 
