@@ -6,7 +6,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from utils import file
 import shutil
 
-
 def test_image_resize():
     """
     Test the image resize feature
