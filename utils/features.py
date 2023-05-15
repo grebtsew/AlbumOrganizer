@@ -28,9 +28,10 @@ from skimage.feature import graycomatrix, graycoprops
 
 try:
     import pytesseract
-    print(f"PyTesseract Installed and Imported")
+    #print(f"PyTesseract Installed and Imported")
 except ImportError:
-    print("Tesseract OCR is not installed.")
+    #print("Tesseract OCR is not installed.")
+    pass
 
 import torch
 import torchvision

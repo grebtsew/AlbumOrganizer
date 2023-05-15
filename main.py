@@ -80,4 +80,8 @@ if __name__ == "__main__":
     # Create new target
     file.save_all_individual_from_album(target_path, df, allow_copies=False)
 
-    # TODO: test on larger dataset
+    print()
+    print("All Done, Have a great day!")
+    print()
+    print("@Grebtsew 2023")
+    print()
