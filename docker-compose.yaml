@@ -5,7 +5,7 @@ version: '3.8'
 # Run using this command:
 # docker-compose run albumorganizer <--command (optional)>
 # Available commands include : 
-# --slideshow, --collage, --imageresize, --removeduplicates, --pytest, null
+# --slideshow, --collage, --image-resize, --remove-duplicates, --detect-duplicates, --pytest, null
 
 services:
   albumorganizer:

@@ -1,5 +1,5 @@
 """
-Run this file to execute removeal of duplicate images.
+Run this file to execute detection of duplicate images.
 """
 import sys
 import os
@@ -22,4 +22,3 @@ if __name__ == "__main__":
 
     duplicate_path_tuples = file.find_duplicates(album_path)
     print(f"Found duplicates in album: {len(duplicate_path_tuples)}")
-    file.remove_duplicates(duplicate_path_tuples)

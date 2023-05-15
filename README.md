@@ -74,7 +74,7 @@ AlbumOrganizer will then create a sentient slideshow using the photos in the pho
 AlbumOrganizer can also resize all images in an album, either crop, resize or rescale. To resize the dataset, simply add the --imageresize flag to the command:
 
 ```bash
-docker-compose run albumorganizer --imageresize
+docker-compose run albumorganizer --image-resize
 ```
 
 AlbumOrganizer will then create a new folder in target containing the resized images.
@@ -84,7 +84,10 @@ AlbumOrganizer will then create a new folder in target containing the resized im
 AlbumOrganizer can also detect and remove duplicate images in albums. To remove duplicates, simply add the --removeduplicates flag to the command:
 
 ```bash
-docker-compose run albumorganizer --removeduplicates
+# Detect only (optional)
+docker-compose run albumorganizer --detect-duplicates
+# Remove
+docker-compose run albumorganizer --remove-duplicates
 ```
 
 AlbumOrganizer will then create a sentient slideshow using the photos in the photo album.
