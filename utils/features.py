@@ -28,6 +28,7 @@ from skimage.feature import graycomatrix, graycoprops
 
 try:
     import pytesseract
+    print(f"PyTesseract Installed and Imported")
 except ImportError:
     print("Tesseract OCR is not installed.")
 
@@ -321,7 +322,7 @@ def multi_process_slideshow(image_path, debug=False):
             "image_quality",
             "image_resolution",
             "image_file_format",
-            "aspect_ratio_range",
+            "aspect_ratio",
             "text",
             "image_smooth_edges",
             "image_feeling",
@@ -409,10 +410,12 @@ def multi_process_slideshow(image_path, debug=False):
     # text
     try:
         text = pytesseract.image_to_string(image)
-        if debug:
-            print(f"Text: {text}")
-    except Exception:
+    except Exception as e:
+        print(e)
         text = None
+    
+    if debug:
+            print(f"Text: {text}")
 
     # image smooth edges
     gradient = cv2.Laplacian(image, cv2.CV_64F)
@@ -568,8 +571,8 @@ def create_slideshow(
     image_contrast=None,
     # Image file specific
     min_image_quality=None,
-    min_image_resolution=(0, 0),
-    max_image_resolution=(4000, 4000),
+    min_image_resolution=None,
+    max_image_resolution=None,
     image_file_formats=None,
     aspect_ratio_range=None,
     # Text detection
@@ -652,10 +655,10 @@ def create_slideshow_from_df_and_filters(
     image_contrast=None,
     # Image file specific
     min_image_quality=None,
-    min_image_resolution=(0, 0),
-    max_image_resolution=(4000, 4000),
+    min_image_resolution=None,
+    max_image_resolution=None,
     image_file_formats=None,
-    aspect_ratio_range=(0, 4),
+    aspect_ratio_range=None,
     # Text detection
     text_amount=None,
     text=None,
@@ -761,35 +764,43 @@ def create_slideshow_from_df_and_filters(
         if aspect_ratio_range is not None:
             if (
                 aspect_ratio_range[0]
-                < row["aspect_ratio_range"]
+                < row["aspect_ratio"]
                 < aspect_ratio_range[1]
             ):
                 continue
 
-        if text_amount is not None:
-            if text_amount > len(row["text"]):
+        if text_amount is not None and row["text"] is not None:
+            if text_amount+1 > len(row["text"].split(" ")):
                 continue
 
-        if text is not None:
+        if text is not None and row["text"] is not None:
+            skip=False
             for word in text:
                 if word not in row["text"]:
-                    continue
+                    skip=True
+                    break
+            if skip:
+                continue
 
         if image_smooth_edges is not None:
             if image_smooth_edges == Level.LOW:
-                if row["image_smooth_edges"] >= 0.2:
+                if row["image_smooth_edges"] >= 15:
                     continue
             elif image_smooth_edges == Level.MODERATE:
-                if row["image_smooth_edges"] < 0.2 or row["image_smooth_edges"] > 0.5:
+                if row["image_smooth_edges"] < 15 or row["image_smooth_edges"] > 30:
                     continue
             elif image_smooth_edges == Level.HIGH:
-                if row["image_smooth_edges"] <= 0.5:
+                if row["image_smooth_edges"] <= 30:
                     continue
 
         if image_feeling is not None:
+            skip=False
             for feel in image_feeling:
-                if feel not in row["image_feeling"]:
-                    continue
+                if feel not in row["image_feeling"][0]:
+                    skip=True
+                    break
+            if skip:
+                continue
 
         if environment is not None:
             if row["environment"] not in environment:
@@ -797,13 +808,13 @@ def create_slideshow_from_df_and_filters(
 
         if sift_features is not None:
             if sift_features == Level.LOW:
-                if row["sift_features"] >= 100:
+                if row["sift_features"] >= 300:
                     continue
             elif sift_features == Level.MODERATE:
-                if row["sift_features"] < 100 or row["sift_features"] > 200:
+                if row["sift_features"] < 300 or row["sift_features"] > 1000:
                     continue
             elif sift_features == Level.HIGH:
-                if row["sift_features"] <= 200:
+                if row["sift_features"] <= 1000:
                     continue
 
         if people is not None:

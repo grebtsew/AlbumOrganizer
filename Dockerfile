@@ -5,6 +5,10 @@ ENV DEBIAN_FRONTEND noninteractive
 
 LABEL "maintained" "Grebtsew 23-05-09"
 
+# Install tesseract separately
+RUN apt-get update && apt-get install -y tesseract-ocr tesseract-ocr-eng
+
+# Install rest of the programs
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
@@ -21,6 +25,8 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libmagickwand-dev \
     && rm -rf /var/lib/apt/lists/*
+
+ENV PATH="/usr/bin/tesseract:${PATH}"
 
 # set the working directory
 WORKDIR /app

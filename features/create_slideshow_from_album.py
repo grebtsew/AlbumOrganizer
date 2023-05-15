@@ -22,37 +22,59 @@ if __name__ == "__main__":
     # Slideshow filters
     # PLAY WITH FILTERS HERE!
 
-    # Color analysis
-    color_dominance = None # exemple (0,0,0)  # bgr, check for color dominant occurrences
-    color_diversity = None  # example Level.MODERATE # high large diversity
-    color_warmth = None  # example Heat.COLD, low = cold, high = warm
-    image_intensity = None # example Level.MODERATE
-    image_contrast = None # example Level.MODERATE
-    # Image file specific
-    min_image_quality = None # example Level.LOW - test
-    min_image_resolution = (0, 0)
-    max_image_resolution = (4000, 4000)
-    image_file_formats = None # example ["JPG"] # List of formats - test
-    aspect_ratio_range = (0, 2) #TODO:
-    # Text detection
-    text_amount = None
-    text = None
-    # Corner detection
-    image_smooth_edges = None
-    # Sentient Analysis
-    image_feeling = None  # list of feelings
-    # Environment Analysis
-    environment = None  # "outside"
-    # Feature extraction
-    sift_features = None
-    # Face detection
-    people = None # example, Level.LOW # level
-    # Object detection
-    allowed_objects = None  # create a list of strings of object names
-    not_allowed_objects = None
+    # Let them be None to ignore filter
 
-    workers = 1
-    checkpoint_path = "./data/tmp/slideshow_checkpoint.pkl"
+    # Color analysis
+    # bgr, check for color dominant occurrences, uses color euclidean distance > 100
+    color_dominance = None # exemple (0,0,0)  
+    # high value -> large diversity
+    color_diversity = None  # example Level.MODERATE
+    # Set heat color of images
+    color_warmth = None  # example Heat.COLD,
+    # Image file specific
+    # Intensity of image values
+    image_intensity = None # example Level.MODERATE
+    # Contrast of images
+    image_contrast = None # example Level.MODERATE
+    
+    # Set image quality, uses saturn and laplacian
+    min_image_quality = None # example Level.LOW 
+    # Set minimum resolution
+    min_image_resolution = None # example (0, 0)
+    # Set maximum resolution
+    max_image_resolution = None # example (4000, 4000)
+    # Image file format
+    image_file_formats = None # example ["JPG"] # List of formats, strings should be UPPER
+    # Image aspect ratio range
+    aspect_ratio_range = None # example (0, 2)
+    
+    # Text detection
+    # Calculates the amount of words found in images
+    text_amount = None # example 1 
+    # Search for words in images
+    text = None # example ["text"]
+
+    # Corner detection
+    image_smooth_edges = None # example Level.MODERATE
+    
+    # Sentient Analysis - detects feelings from image average color
+    image_feeling = None # example ["Calm"] - list of feelings
+
+    # Environment Analysis - estimate environmet from glcm 
+    environment = None # example ["Urban"] - list of environments 
+
+    # Feature extraction - SIFT feature extraction
+    sift_features = None # example Level.LOW
+
+    # Face detection - amount of people in images - dlib face detection
+    people = None # example, Level.LOW # level
+
+    # Object detection - RCNN using COCO dataset
+    allowed_objects = None  # example ["tie"] create a list of strings of object names
+    not_allowed_objects = None # example ["remote"]
+
+    workers = 1 # amount of concurrent processes
+    checkpoint_path = "./data/tmp/slideshow_checkpoint.pkl" 
     csv_path = "./data/tmp/ss_db.csv"
     checkpoint_interval = 50
 

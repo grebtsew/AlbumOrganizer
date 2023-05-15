@@ -2,8 +2,11 @@
 
 AlbumOrganizer is a Python3 tool that organizes your photo albums by recognizing persons in your photos and creating a file structure where photos of each individual are moved. The implementation is dockerized and uses pytest. Extra features include generation of face collages per person and sentient slideshows.
 
+#!(./demo.gif)[Demo]
+
 # Installation 
 
+The implementation can be executed either using Docker of locally on your machine, the two install processes are described below.
 ## Docker
 
 To install AlbumOrganizer using Docker, you need to have Docker installed on your system. You can then build and run the container using the docker-compose file using the following command:
@@ -13,6 +16,8 @@ docker-compose build albumorganizer
 
 docker-compose run albumorganizer <command (optional)>
 ```
+
+*NOTE*: The optional <command> is used to run separate feature functions and tests.
 
 ## Locally
 
@@ -46,7 +51,8 @@ Additional features can be found in the `./features` folder.
 These features can be found in the `./features` folder. Change settings the files before running.
 ## Face Collages
 
-AlbumOrganizer can also generate face collages per person. To generate face collages, simply add the --collage flag to the command:
+AlbumOrganizer can also generate face collages per person. This function will crop all faces of a specified person in a photo album and merge them together resulting in a large collage of faces.
+To generate face collages, simply add the --collage flag to the command:
 
 ```bash
 docker-compose run albumorganizer --collage
@@ -55,7 +61,7 @@ docker-compose run albumorganizer --collage
 AlbumOrganizer will then generate a face collage for each individual in the photo album.
 ## Sentient Slideshows
 
-AlbumOrganizer can also create sentient slideshows. To create a sentient slideshow, simply add the --slideshow flag to the command:
+AlbumOrganizer can also create sentient slideshows. A sentient slideshow is a slideshow that has been generated using a multitude of filters depending on Computer Vision. See the script file in `./features` to see all filters. To create a sentient slideshow, simply add the --slideshow flag to the command:
 
 ```bash
 docker-compose run albumorganizer --slideshow
