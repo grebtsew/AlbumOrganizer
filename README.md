@@ -2,6 +2,14 @@
 
 AlbumOrganizer is a Python3 tool that organizes your photo albums by recognizing persons in your photos and creating a file structure where photos of each individual are moved. The implementation is dockerized and uses pytest for testing. Extra features include generation of face collages per person and sentient slideshows, see more below. The implementation utilizes multiprocessing and checkpointing in order to optimize and maintain long running tasks due to large photo albums. The demo below visualizes the execution of the main function on test images.
 
+![license](https://img.shields.io/github/license/grebtsew/AlbumOrganizer)
+![size](https://img.shields.io/github/repo-size/grebtsew/AlbumOrganizer)
+![commit](https://img.shields.io/github/last-commit/grebtsew/AlbumOrganizer)
+[![Version](https://img.shields.io/github/v/release/grebtsew/AlbumOrganizer)](https://github.com/grebtsew/AlbumOrganizer/releases)
+[![Downloads](https://img.shields.io/github/downloads/grebtsew/AlbumOrganizer/total)](https://github.com/grebtsew/AlbumOrganizer)
+
+
+
 ![Demo](./demo.gif)
 
 # Installation 
